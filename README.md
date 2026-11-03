@@ -38,7 +38,7 @@ Captura de imagem  →  Extração de características  →  Análise dos sinais
 | API FastAPI e painel web | [`prototype/backend/`](prototype/backend/) | Implementado |
 | App Expo (React Native) | [`prototype/mobile/`](prototype/mobile/) | Consulta a API e vibra em "Sonolência Detectada". Não toca som |
 | App Android (Kotlin nativo) | [`Aplicativo-Android/`](Aplicativo-Android/) | Domínio e 67 testes escritos; o módulo `app` ainda não foi compilado nem testado em aparelho |
-| Firmware da ESP32-CAM | [`firmware/`](firmware/) | A fazer |
+| Firmware da ESP32-CAM | [`firmware/`](firmware/) | Implementação inicial; aguardando teste na placa |
 | Sensores inerciais (IMU) | — | No Android, o acelerômetro do aparelho já tem adaptador; no protótipo Python não há |
 | Classificador treinado e IA generativa | — | Não iniciados no código. O "modelo" hoje é o MediaPipe pré-treinado mais regras |
 
