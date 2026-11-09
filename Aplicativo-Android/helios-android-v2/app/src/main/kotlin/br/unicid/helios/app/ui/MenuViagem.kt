@@ -129,7 +129,8 @@ fun PainelMenu(
         }
         if (emViagem) BotaoSegurar("Segure para encerrar a viagem", acoes.encerrar)
 
-        if (ui.emMovimento) {
+        val podeAbrirDados = ui.pausada || !ui.emMovimento
+        if (!podeAbrirDados) {
             Text(
                 "Histórico e ajustes ficam disponíveis com o carro parado.",
                 style = Tipos.rodape,
@@ -137,10 +138,10 @@ fun PainelMenu(
             )
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            OutlinedButton(onClick = acoes.historico, enabled = !ui.emMovimento, modifier = Modifier.weight(1f).height(56.dp)) {
+            OutlinedButton(onClick = acoes.historico, enabled = podeAbrirDados, modifier = Modifier.weight(1f).height(56.dp)) {
                 Text("Histórico", fontSize = 18.sp)
             }
-            OutlinedButton(onClick = acoes.ajustes, enabled = !ui.emMovimento, modifier = Modifier.weight(1f).height(56.dp)) {
+            OutlinedButton(onClick = acoes.ajustes, enabled = podeAbrirDados, modifier = Modifier.weight(1f).height(56.dp)) {
                 Text("Ajustes", fontSize = 18.sp)
             }
         }

@@ -54,11 +54,20 @@ bool initializeCamera() {
 void setBuzzer(uint8_t pattern) {
   buzzerPattern = pattern;
   if (pattern == 0) {
+#if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 3
+    ledcWrite(HELIOS_BUZZER_GPIO, 0);
+#else
     ledcWrite(HELIOS_BUZZER_CHANNEL, 0);
+#endif
     return;
   }
+#if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 3
+  ledcWriteTone(HELIOS_BUZZER_GPIO, pattern == 2 ? 2000 : 880);
+  ledcWrite(HELIOS_BUZZER_GPIO, pattern == 2 ? 220 : 150);
+#else
   ledcWriteTone(HELIOS_BUZZER_CHANNEL, pattern == 2 ? 2000 : 880);
   ledcWrite(HELIOS_BUZZER_CHANNEL, pattern == 2 ? 220 : 150);
+#endif
 }
 
 void handleRoot() {
@@ -91,7 +100,7 @@ void handleBuzzer() {
 void acceptStreamClient() {
   if (streamClient && streamClient.connected()) return;
   if (streamClient) streamClient.stop();
-  streamClient = streamServer.accept();
+  streamClient = streamServer.available();
   if (!streamClient) return;
   streamClient.setNoDelay(true);
   streamClient.print("HTTP/1.1 200 OK\r\nContent-Type: ");
@@ -125,13 +134,19 @@ void sendStreamFrame() {
   }
 }
 
+}  // namespace
+
 void setup() {
   Serial.begin(115200);
   Serial.setDebugOutput(true);
   pinMode(LED_GPIO_NUM, OUTPUT);
   digitalWrite(LED_GPIO_NUM, LOW);
+#if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 3
+  ledcAttach(HELIOS_BUZZER_GPIO, HELIOS_BUZZER_FREQUENCY_HZ, HELIOS_BUZZER_RESOLUTION);
+#else
   ledcSetup(HELIOS_BUZZER_CHANNEL, HELIOS_BUZZER_FREQUENCY_HZ, HELIOS_BUZZER_RESOLUTION);
   ledcAttachPin(HELIOS_BUZZER_GPIO, HELIOS_BUZZER_CHANNEL);
+#endif
   setBuzzer(0);
 
   if (!initializeCamera()) {
@@ -165,4 +180,3 @@ void loop() {
   sendStreamFrame();
   delay(1);
 }
-

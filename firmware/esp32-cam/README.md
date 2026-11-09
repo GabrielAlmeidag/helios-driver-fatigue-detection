@@ -35,8 +35,10 @@ O padrão é uma rede aberta `HELIOS-CAM`, pois o Android está configurado com
 7. Remova IO0 do GND e pressione RESET.
 8. Abra o Serial Monitor em `115200`.
 
-O sketch Arduino é apenas um wrapper e inclui o código compartilhado em
-`src/main.cpp`. Não edite o arquivo `.ino` para mudar a configuração.
+O sketch Arduino já está pronto e inclui o código compartilhado em
+`firmware/esp32-cam/src/main.cpp`. Não edite o arquivo `.ino` para mudar a
+configuração. O código aceita tanto o core ESP32 2.x quanto o 3.x; no PlatformIO
+usamos 2.x fixo.
 
 ## PlatformIO
 
